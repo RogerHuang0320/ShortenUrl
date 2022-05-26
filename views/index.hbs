@@ -11,7 +11,7 @@
         <p>You put in:</p>
         <p>{{newUrl}}</p>
         <p>Your shorten address is:</p>
-        <p>{{newShorten}}</p>
+        <p>{{#if newShorten}}http://localhost:3000/{{/if}}{{newShorten}}</p>
       </form>
     </div>
   </div>
