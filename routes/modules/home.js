@@ -4,6 +4,14 @@ const Address = require('../../models/address')
 const generateAddress = require('../../address_generator')
 let newShorten = ""
 
+router.get('/:add', (req, res) => {
+  const add = req.params.add
+  Address.findOne({ shortadd: add })
+    .lean()
+    .then((linkBack) => res.redirect(linkBack.address))
+    .catch(error => console.log(error))
+})
+
 router.post('/', (req, res) => {
   const newUrl = req.body.address
   Address.find()
