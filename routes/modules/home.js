@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Address = require('../../models/address')
 const generateAddress = require('../../address_generator')
-let newShorten = ""
 
 router.get('/:add', (req, res) => {
   const add = req.params.add
@@ -13,6 +12,7 @@ router.get('/:add', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+  let newShorten = ""
   const newUrl = req.body.address
   Address.find()
     .lean()
