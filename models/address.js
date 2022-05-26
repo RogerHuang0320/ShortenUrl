@@ -5,6 +5,9 @@ const addressSchema = new Schema({
   address: {
     type: String,
     required: true
+  },
+  shortadd: {
+    type: String
   }
 })
 

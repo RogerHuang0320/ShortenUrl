@@ -1,12 +1,45 @@
 const express = require('express')
 const router = express.Router()
 const Address = require('../../models/address')
+const generateAddress = require('../../address_generator')
+let newShorten = ""
+
+router.post('/', (req, res) => {
+  const newUrl = req.body.address
+  Address.find()
+    .lean()
+    .then((addresses) => {
+      newShorten = addresses.find((eachUrl) => eachUrl.address === newUrl)
+      console.log(newShorten)
+      if (newShorten) {
+        newShorten = newShorten.shortadd
+        return res.render('index', { newShorten, newUrl })
+      }
+      let shortadd = generateAddress()
+      while (addresses.some((eachUrl) => eachUrl.shoradd === shortadd)) {
+        shortadd = generateAddress()
+      }
+      newShorten = shortadd
+      return Address.create({ address: newUrl, shortadd })
+    })
+    .then(() => res.render('index', { newShorten, newUrl }))
+    .catch(error => console.log(error))
+})
+
 
 router.get('/', (req, res) => {
-  Address.find() // 取出 Todo model 裡的所有資料
-    .lean() // 把 Mongoose 的 Model 物件轉換成乾淨的 JavaScript 資料陣列
-    .then(res.render('index')) // 將資料傳給 index 樣板, 後面這裡就是key跟value的代號都一樣,都是todos, 原樣為{todos: todos}
-    .catch(error => console.log(error)) // 錯誤處理
+  return res.render('index')
 })
 
 module.exports = router
+
+// 看我能不能抓到寫進來的網址
+// 網址是否能產生亂碼
+// 新增一筆資料進去、紀錄網址與亂碼
+// 寫出比對的演算法、路由
+// 比對原始網址
+// 找到縮寫
+// 輸出到畫面
+// 寫條件式, 有就回傳, 沒有就create後回傳
+// 發佈到heroku
+// 
